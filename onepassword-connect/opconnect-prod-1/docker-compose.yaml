@@ -24,7 +24,7 @@ services:
       - backend
   op-connect-sync:
     container_name: opconnect-prod-1-sync
-    image: 1password/connect-sync:1.6
+    image: 1password/connect-sync:1.7
     ports:
       - "8091:8080"
     volumes:
