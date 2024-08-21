@@ -1,0 +1,19 @@
+---
+- name: Install core packages for new VMs
+  hosts: "{{ hosts }}"
+  become: true
+  tasks:
+    - name: Install core packages
+      ansible.builtin.apt:
+        name:
+          - prometheus-node-exporter
+          - nfs-common
+          - unzip
+          - qemu-guest-agent
+        update_cache: true
+
+    - name: Start qemu-guest-agent
+      ansible.builtin.service:
+        name: qemu-guest-agent
+        state: started
+        enabled: true

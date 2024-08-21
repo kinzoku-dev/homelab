@@ -1,0 +1,13 @@
+---
+profile: production
+exclude_paths:
+  # default paths
+  - .cache/
+  - .github/
+
+skip_list:
+  - var-naming[no-role-prefix]
+  - yaml[line-length]
+
+extra_vars:
+  hosts: []

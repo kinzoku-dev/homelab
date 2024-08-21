@@ -1,0 +1,12 @@
+---
+- name: Install core packages for new systems
+  hosts: "{{ hosts|default([]) }}"
+  become: true
+  tasks:
+    - name: Install core packages
+      ansible.builtin.apt:
+        name:
+          - prometheus-node-exporter
+          - nfs-common
+          - unzip
+        update_cache: true

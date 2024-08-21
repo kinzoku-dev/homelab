@@ -1,0 +1,4 @@
+**/*.env
+**/*credentials.*
+
+ansible/inventory/group_vars/secret.yaml

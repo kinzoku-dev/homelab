@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+volumes:
+  data:
+
+services:
+  op-connect-api:
+    container_name: opconnect-prod-1-api
+    image: 1password/connect-api:1.7
+    ports:
+      - "8090:8080"
+    volumes:
+      - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
+      - "data:/home/opuser/.op/data"
+    networks:
+      - frontend
+      - backend
+  op-connect-sync:
+    container_name: opconnect-prod-1-sync
+    image: 1password/connect-sync:1.7
+    ports:
+      - "8091:8080"
+    volumes:
+      - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
+      - "data:/home/opuser/.op/data"
+    networks:
+      - frontend
+      - backend

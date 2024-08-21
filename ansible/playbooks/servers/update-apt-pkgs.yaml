@@ -1,0 +1,27 @@
+---
+- name: Update APT packages
+  hosts: "{{ hosts }}"
+  become: true
+  tasks:
+    - name: Upgrade APT packages
+      become: true
+      ansible.builtin.apt:
+        upgrade: true
+        update-cache: true
+
+    - name: Check if system reboot is required
+      become: true
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Send Pushover message
+      ansible.builtin.uri:
+        url: "https://api.pushover.net/1/messages.json"
+        method: POST
+        body_format: json
+        body: '{"user":"{{ pushover_user_key }}","token":"{{ pushover_ansible_api_key }}","message":"Reboot required on {{ inventory_hostname }}"}'
+        headers:
+          Content-Type: application/json
+        status_code: 204
+      when: reboot_required.stat.exists
